@@ -1,0 +1,6 @@
+# Untracked Files
+node_modules/
+.vscode/
+data/
+dist/
+webpack.config.js
