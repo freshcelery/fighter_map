@@ -12,10 +12,13 @@ export default class Map {
     private height = window.innerHeight;
     private width = window.innerWidth;
     private projection = geoMercator();
-    private path = geoPath().projection(this.projection);
+    public path = geoPath().projection(this.projection);
     private svg: d3.Selection<d3.BaseType, {}, HTMLElement, any>;
     private fighter: d3.Selection<d3.BaseType, {}, HTMLElement, any>;
     private map: d3.Selection<d3.BaseType, {}, HTMLElement, any>;
+    private g: d3.Selection<d3.BaseType, {}, HTMLElement, any>;
+    private centered: any;
+    private fighter_circle_size = 5;
     private geoID = (d) => {
         return 'c' + d.id
     }
@@ -27,15 +30,12 @@ export default class Map {
             .attr('height', this.height)
             .attr('preserveAspectRatio', 'xMinYMin meet')
             .attr('class', 'world_map');
-
         this.map = this.svg.append('g').attr('class', 'boundary');
-        this.fighter = this.svg.append('g').attr('class', 'fighter');
-        // Commented due to bug
-        // this.svg.append('rect')
-        //             .attr('class', 'overlay')
-        //             .attr('width', this.width)
-        //             .attr('height', this.height)
-        //             .call(this.zoom(this.map, this.fighter))
+        this.g = this.map.append("g").attr('class', 'country');
+        this.fighter = this.map.append('g').attr('class', 'fighter');
+        this.create_map();
+        this.get_fighter_data();
+
     }
 
     /*
@@ -53,16 +53,15 @@ export default class Map {
                 t = [(this.width - s * (b[1][0] + b[0][0])) / 2, (this.height - s * (b[1][1] + b[0][1])) / 2];
                 this.projection.scale(s).translate(t);
 
-                let world = this.map.selectAll('path').data(countries.features);
+                let world = this.g.selectAll('path').data(countries.features);
+
                 world.enter()
                     .append('path')
                     .attr('d', this.path)
                     .attr('id', this.geoID)
-                    .attr('class', 'country');
-
+                    .on('click', this.click_to_zoom(this.map, this.path));
                 //Exit
                 world.exit().remove();
-                this.get_fighter_data();
             },
                 (error) => {
                     return;
@@ -79,8 +78,10 @@ export default class Map {
     }
 
     fighter_mouseover_event() {
-        let hover = function(d) {
-            d3.select(this).transition().ease(d3.easeCircle).duration(250).attr('r', 10);
+        let hover = function (d) {
+            let circle_size = d3.select("circle").attr('r');
+            console.log(circle_size);
+            d3.select(this).transition().ease(d3.easeCircle).duration(250).attr('r', Number(circle_size) * 2);
             let div = document.getElementById('tooltip');
             div.style.left = d3.event.pageX + 'px';
             div.style.top = d3.event.pageY + 'px';
@@ -92,29 +93,32 @@ export default class Map {
     }
 
     fighter_mouseout_event() {
-        let hover = function(d) {
-            d3.select(this).transition().ease(d3.easeCircle).duration(250).attr('r', 5);
+        let hover = function (d) {
+            let circle_size = d3.select("circle").attr('r');
+            console.log(circle_size);
+            d3.select(this).transition().ease(d3.easeCircle).duration(250).attr('r', Number(circle_size));
             let div = document.getElementById('tooltip');
-            div.style.visibility = 'hidden'; 
+            div.style.visibility = 'hidden';
         }
 
         return hover
     }
-    country_names(projection, svg) {
+    country_names() {
         d3.csv('data/cities.csv').then((cities) => {
-            let country = svg.append('g').attr('class', 'country');
-            let countryPoints = country.selectAll('circle').data(cities);
+            let country = this.map.append('g').attr('class', 'country_name');
             let countryText = country.selectAll('text').data(cities);
-            countryPoints.enter()
-                .append('circle')
-                .attr('cx', (d) => {
-                    return projection([d.lon, d.lat])[0]
+            countryText.enter()
+                .append('text')
+                .attr('x', (d: any) => {
+                    return this.projection([d.lon, d.lat])[0]
                 })
-                .attr('cy', (d) => {
-                    return projection([d.lon, d.lat])[1]
+                .attr('y', (d: any) => {
+                    return this.projection([d.lon, d.lat])[1]
                 })
-                .attr('r', 4)
-                .attr('fill', 'white');
+                .attr('fill', 'white')
+                .text((d: any) => {
+                    return d.name;
+                });
         });
     }
 
@@ -154,33 +158,44 @@ export default class Map {
             })
             .attr('r', 5)
             .attr('fill', 'white')
+            .attr('class', 'fighter')
             .on('mouseover', this.fighter_mouseover_event())
             .on('mouseout', this.fighter_mouseout_event());
-        
-        // fighterText.enter()
-        //         .append('text')
-        //         .attr('x', (d: any) => {
-        //             return this.projection([d.longitude, d.latitude])[0]
-        //         })
-        //         .attr('y', (d: any) => {
-        //             return this.projection([d.longitude, d.latitude])[1]
-        //         })
-        //         .text((d: any) => {
-        //             return d.name;
-        //         });
     }
 
-    zoom(map, fighter) {
-        let zoomed = function () {
-            console.log('Zoomies');
-            map.attr('transform', 'translate(' + d3.event.transform.x + ',' + d3.event.transform.y + ')scale(' + d3.event.transform.k + ')');
-            fighter.attr('transform', 'translate(' + d3.event.transform.x + ',' + d3.event.transform.y + ')scale(' + d3.event.transform.k + ')');
-        };
+    click_to_zoom(svgElement, path) {
 
-        let zoom = d3.zoom() // todo change behavior.zoom() to its equivalent in d3v4
-            .scaleExtent([1, 8])
-            .on('zoom', zoomed);
+        let click = (d) => {
+            let x, y, k;
+            if (d && this.centered !== d) {
+                let centroid = this.path.centroid(d);
+                x = centroid[0];
+                y = centroid[1];
+                k = 2.5;
+                this.centered = d;
+            } else {
+                x = this.width / 2;
+                y = this.height / 2;
+                k = 1;
+                this.centered = null;
+            }
 
-        return zoom;
+            if (d === this.centered) {
+                this.map.selectAll("circle").attr('r', 1)
+            } else {
+                this.map.selectAll("circle").attr('r', 5)
+            }
+
+            this.map.selectAll("path")
+                .classed("active", (d) => { return d === this.centered });
+
+            this.map.transition()
+                .duration(750)
+                .attr("transform", "translate(" + this.width / 2 + "," + this.height / 2 + ")scale(" + k + ")translate(" + -x + "," + -y + ")")
+                .style("stroke-width", 1.5 / k + "px");
+        }
+
+        return click;
+
     }
 }
