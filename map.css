@@ -4,6 +4,11 @@ rect {
   fill: none;
 }
 
+#map svg, #map canvas {
+    position: absolute;
+    top: 0;
+}
+
 #tooltip {
   position: absolute;
   z-index: 2;
@@ -62,7 +67,6 @@ body,
   width: 100%;
   height: 100%;
   background-color: white;
-  display:none;
 }
 
 .loading_message {
@@ -77,27 +81,39 @@ body,
   pointer-events: all;
 }
 
-canvas { border:  1px solid #ccc; }
+#heatmap{
+  pointer-events: none;
+}
 
-	button {
-		display: inline-block;
-		position:  absolute;
-		width: 6em;
-		margin: 0;
-		padding: .5em;
-		outline: none;
-		color: #555;
-		background-color: #f7f7f7;
-		border: 1px dotted #f0f0f0;
-		-webkit-transition: all 0.3s ease;
-		transition: all 0.3s ease;
-		cursor: pointer;
-	}
 
-	button:hover {
-		background-color: rgba(173, 206, 255, .7);
-	}
+/* Toolbar Styling */
+.toolbar-container{
+  width: 15%;
+  z-index: 15;
+  position: absolute;
+  left: 85%;
+}
 
-	button#enter { top: 20px; left: 625px; }
-	button#update { top: 140px; left: 625px; }
-	button#exit { top: 260px; left: 625px; }
+.toggle-toolbar-button{
+  height: 3em;
+  margin: 2%;
+  padding: 0px 0px 0px 0px;
+  width: 5%;
+  float: left;
+}
+
+.toolbar{
+  width: 85%;
+  height: 3em;
+  float: right;
+}
+
+.tool{
+  width: 25%;
+  height: 100%;
+  font-size: 3em;
+  line-height: 1em;
+  border-style: solid;
+  border-width: 1px;
+  display: inline-block;
+}

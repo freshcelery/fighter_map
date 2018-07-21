@@ -4,6 +4,7 @@ import { request } from 'd3-request';
 import { feature } from 'topojson-client';
 import Axios from 'axios';
 import Fighter from './fighter';
+import Heatmap from './heatmap';
 
 declare const API_PASSWORD: string;
 declare const API_USERNAME: string;
@@ -11,14 +12,15 @@ declare const API_USERNAME: string;
 export default class Map {
     private height = window.innerHeight;
     private width = window.innerWidth;
-    private projection = geoMercator();
+    private projection = geoMercator()
     public path = geoPath().projection(this.projection);
     private svg: d3.Selection<d3.BaseType, {}, HTMLElement, any>;
     private fighter: d3.Selection<d3.BaseType, {}, HTMLElement, any>;
     private map: d3.Selection<d3.BaseType, {}, HTMLElement, any>;
     private g: d3.Selection<d3.BaseType, {}, HTMLElement, any>;
     private centered: any;
-    private fighter_circle_size = 5;
+    private heatmap;
+    private fighter_data;
     private geoID = (d) => {
         return 'c' + d.id
     }
@@ -80,7 +82,6 @@ export default class Map {
     fighter_mouseover_event() {
         let hover = function (d) {
             let circle_size = d3.select("circle").attr('r');
-            console.log(circle_size);
             d3.select(this).transition().ease(d3.easeCircle).duration(250).attr('r', Number(circle_size) * 2);
             let div = document.getElementById('tooltip');
             div.style.left = d3.event.pageX + 'px';
@@ -95,7 +96,6 @@ export default class Map {
     fighter_mouseout_event() {
         let hover = function (d) {
             let circle_size = d3.select("circle").attr('r');
-            console.log(circle_size);
             d3.select(this).transition().ease(d3.easeCircle).duration(250).attr('r', Number(circle_size));
             let div = document.getElementById('tooltip');
             div.style.visibility = 'hidden';
@@ -103,24 +103,24 @@ export default class Map {
 
         return hover
     }
-    country_names() {
-        d3.csv('data/cities.csv').then((cities) => {
-            let country = this.map.append('g').attr('class', 'country_name');
-            let countryText = country.selectAll('text').data(cities);
-            countryText.enter()
-                .append('text')
-                .attr('x', (d: any) => {
-                    return this.projection([d.lon, d.lat])[0]
-                })
-                .attr('y', (d: any) => {
-                    return this.projection([d.lon, d.lat])[1]
-                })
-                .attr('fill', 'white')
-                .text((d: any) => {
-                    return d.name;
-                });
-        });
-    }
+    // country_names() {
+    //     d3.csv('data/cities.csv').then((cities) => {
+    //         let country = this.map.append('g').attr('class', 'country_name');
+    //         let countryText = country.selectAll('text').data(cities);
+    //         countryText.enter()
+    //             .append('text')
+    //             .attr('x', (d: any) => {
+    //                 return this.projection([d.lon, d.lat])[0]
+    //             })
+    //             .attr('y', (d: any) => {
+    //                 return this.projection([d.lon, d.lat])[1]
+    //             })
+    //             .attr('fill', 'white')
+    //             .text((d: any) => {
+    //                 return d.name;
+    //             });
+    //     });
+    // }
 
     get_fighter_data() {
         Axios({
@@ -132,6 +132,8 @@ export default class Map {
             }
         }
         ).then((response) => {
+            this.heatmap = new Heatmap();
+            this.heatmap.buildHeatMap(response.data.results, this.projection);
             this.fighters(response.data.results);
             this.loading_overlay_hide();
         });
@@ -164,7 +166,6 @@ export default class Map {
     }
 
     click_to_zoom(svgElement, path) {
-
         let click = (d) => {
             let x, y, k;
             if (d && this.centered !== d) {
@@ -181,8 +182,10 @@ export default class Map {
             }
 
             if (d === this.centered) {
+                this.heatmap.hideHeatmap(true);
                 this.map.selectAll("circle").attr('r', 1)
             } else {
+                this.heatmap.hideHeatmap(false);
                 this.map.selectAll("circle").attr('r', 5)
             }
 
