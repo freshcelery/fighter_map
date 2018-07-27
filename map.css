@@ -47,6 +47,7 @@ body,
   vertical-align: middle;
   overflow: hidden;
   background-color: #111111;
+  margin: 0;
 }
 
 .world_map {
@@ -63,7 +64,7 @@ body,
   left: 0;
   right: 0;
   bottom: 0;
-  z-index: 2;
+  z-index: 4;
   width: 100%;
   height: 100%;
   background-color: white;
@@ -83,37 +84,4 @@ body,
 
 #heatmap{
   pointer-events: none;
-}
-
-
-/* Toolbar Styling */
-.toolbar-container{
-  width: 15%;
-  z-index: 15;
-  position: absolute;
-  left: 85%;
-}
-
-.toggle-toolbar-button{
-  height: 3em;
-  margin: 2%;
-  padding: 0px 0px 0px 0px;
-  width: 5%;
-  float: left;
-}
-
-.toolbar{
-  width: 85%;
-  height: 3em;
-  float: right;
-}
-
-.tool{
-  width: 25%;
-  height: 100%;
-  font-size: 3em;
-  line-height: 1em;
-  border-style: solid;
-  border-width: 1px;
-  display: inline-block;
 }
