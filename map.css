@@ -1,14 +1,3 @@
-rect {
-  stroke-width: 1px;
-  stroke: black;
-  fill: none;
-}
-
-#map svg, #map canvas {
-    position: absolute;
-    top: 0;
-}
-
 #tooltip {
   position: absolute;
   z-index: 2;
@@ -31,22 +20,22 @@ rect {
 }
 
 .country {
-  stroke: #888888;
-  fill: #494949;
+  stroke: #343434;
+  fill: #464646;
 }
-.country .active{
-  fill: #6ff5ab;
+.country.active{
+  fill: #333333;
 }
 
 body,
 #map {
   display: inline-block;
   position: relative;
-  width: 100%;
+  width: 100vw;
   padding-bottom: 100%;
   vertical-align: middle;
   overflow: hidden;
-  background-color: #111111;
+  background-color: #181719;
   margin: 0;
 }
 
@@ -55,7 +44,7 @@ body,
   position: absolute;
   top: 0;
   left: 0;
-  background-color: #111111;
+  background-color: #181719;
 }
 
 .loading_overlay {
@@ -64,9 +53,9 @@ body,
   left: 0;
   right: 0;
   bottom: 0;
-  z-index: 4;
-  width: 100%;
-  height: 100%;
+  z-index: 5;
+  width: 100vw;
+  height: 100vh;
   background-color: white;
 }
 
@@ -84,4 +73,18 @@ body,
 
 #heatmap{
   pointer-events: none;
+  position: absolute;
+  top: 0;
+}
+
+#heatmap.visible{
+  visibility: visible;
+  opacity: 1;
+  transition: opacity 3s ease-in;
+}
+
+
+#heatmap.hidden{
+  opacity:0;
+  visibility: hidden;
 }

@@ -1,33 +1,40 @@
-import * as simpleheat from "simpleheat";
-import * as d3 from 'd3';
-import * as React from 'react';
-import { geoMercator, geoPath } from 'd3-geo';
+/// <reference path='../typings/Heatmap.d.ts' />
 
-export class Heatmap extends React.Component{
+import * as simpleheat from "simpleheat";
+import * as React from 'react';
+
+export class Heatmap extends React.Component<HeatmapProps>{
     private canvas;
-    private fighterData: JSON;
-    private projection = geoMercator();
     readonly POINT_RADIUS = 10;
     readonly BLUR_RADIUS = 25;
-    private node = this.node;
-    constructor(props) {
+
+    constructor(props: HeatmapProps) {
         super(props);
-        // this.buildHeatMap();
     }
 
     render(){
+        let visibility = "hidden";
+
+        if(this.props.visible){
+            visibility = "visible"
+        }
+
         return(
-            <canvas ref="canvas" width={window.innerWidth} height={window.innerHeight} id='heatmap'></canvas>
+            <canvas ref="canvas" width={window.innerWidth} height={window.innerHeight} id='heatmap' className={visibility}></canvas>
         );
         
     }
 
+    componentDidMount(){
+        this.buildHeatMap();
+    }
+
     buildHeatMap() {
         let array = [];
-        for (let fighter in this.fighterData) {
-            let cx = this.projection([this.fighterData[fighter].longitude, this.fighterData[fighter].latitude])[0]
-            let cy = this.projection([this.fighterData[fighter].longitude, this.fighterData[fighter].latitude])[1]
-            let weightclass = this.fighterData[fighter].weightclass;
+        for (let fighter in this.props.data) {
+            let cx = this.props.projection([this.props.data[fighter].longitude, this.props.data[fighter].latitude])[0]
+            let cy = this.props.projection([this.props.data[fighter].longitude, this.props.data[fighter].latitude])[1]
+            let weightclass = this.props.data[fighter].weightclass;
             let value = 0;
             if (weightclass == "Welterweight") {
                 value = 1;
@@ -35,45 +42,14 @@ export class Heatmap extends React.Component{
             array.push([cx, cy, value])
 
         }
+        this.canvas = this.refs.canvas as any;
+        console.log(this.canvas);
         let heat = simpleheat(this.canvas);
         heat.data(array);
         heat.max(1);
         heat.radius(this.POINT_RADIUS, this.BLUR_RADIUS);
         heat.draw(0.05);
     }
-
-    filterByWeightclass(weightclassIn) {
-        let heatmapData = []
-        console.log("Weightclass = " + weightclassIn)
-        for (let fighter in this.fighterData) {
-            let cx = this.projection([this.fighterData[fighter].longitude, this.fighterData[fighter].latitude])[0]
-            let cy = this.projection([this.fighterData[fighter].longitude, this.fighterData[fighter].latitude])[1]
-            let weightclass = this.fighterData[fighter].weightclass;
-            let value = 0;
-           if(weightclassIn == weightclass){
-               value = 1
-           }
-            heatmapData.push([cx, cy, value])
-
-        }
-        console.log(heatmapData)
-        let heat = simpleheat(this.canvas);
-        heat.data(heatmapData);
-        heat.max(1);
-        heat.radius(this.POINT_RADIUS, this.BLUR_RADIUS);
-        heat.draw(0.05);
-        heat.resize();
-    }
-
-    toggleHeatmap() {
-        let heatmap = d3.select("#heatmap");
-        console.log(heatmap.style("display"));
-        console.log(heatmap.style("display") == "block");
-        if (heatmap.style("display") == "block") {
-            heatmap.transition().style("display", "none");
-        }
-        else {
-            heatmap.transition().delay(1000).style("display", "block");
-        }
-    }
 }
+
+export default Heatmap
