@@ -1,6 +1,6 @@
 /// <reference path='../typings/App.d.ts' />
 import Map from "./Map";
-import MenuContainer from './MenuContainer';
+import MenuContainer from './Menus/MenuContainer';
 import Overlay from './Overlay';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';

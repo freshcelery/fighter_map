@@ -3,3 +3,8 @@ interface HeatmapProps{
     visible: boolean;
     data: any;
 }
+
+interface HeatmapState{
+    windowHeight: any;
+    windowWidth: any;
+}

@@ -1,4 +1,4 @@
-/// <reference path='../typings/Menu.d.ts' />
+/// <reference path='../../typings/Menu.d.ts' />
 import * as React from 'react';
 
 class MenuButton extends React.Component<MenuButtonProps>{

@@ -5,4 +5,5 @@ interface MapProps{
 interface MapState{
     heatmapVisibility?: boolean;
     projection: any;
+    viewbox: any;
 }

@@ -1,11 +1,14 @@
 {
     "compilerOptions": {
+      "allowJs": false,
       "target": "es5",
       "module": "commonjs",
       "outDir": "dist",
       "sourceMap": true,
-      "jsx": "react"
+      "jsx": "react",
+      "noEmit": true
     },
+    "compileOnSave": false,
     "include": [
       "src/**/*.ts"
     ],

@@ -3,7 +3,7 @@
 import * as simpleheat from "simpleheat";
 import * as React from 'react';
 
-export class Heatmap extends React.Component<HeatmapProps>{
+export class Heatmap extends React.Component<HeatmapProps, HeatmapState>{
     private canvas;
     readonly POINT_RADIUS = 10;
     readonly BLUR_RADIUS = 25;
@@ -25,7 +25,8 @@ export class Heatmap extends React.Component<HeatmapProps>{
         
     }
 
-    componentDidMount(){
+
+    componentDidMount() {
         this.buildHeatMap();
     }
 
@@ -43,7 +44,6 @@ export class Heatmap extends React.Component<HeatmapProps>{
 
         }
         this.canvas = this.refs.canvas as any;
-        console.log(this.canvas);
         let heat = simpleheat(this.canvas);
         heat.data(array);
         heat.max(1);

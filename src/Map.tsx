@@ -8,8 +8,6 @@ import Fighters from './Fighters';
 import * as React from 'react';
 
 class Map extends React.Component<MapProps, MapState>{
-    private height = window.innerHeight;
-    private width = window.innerWidth;
     private centered: any;
     private node = this.node;
     private geoID = (d) => {
@@ -20,20 +18,26 @@ class Map extends React.Component<MapProps, MapState>{
         super(props);
         this.state = {
             heatmapVisibility: true,
-            projection: null
+            projection: undefined,
+            viewbox: "0 0 " + window.innerWidth + " " +  window.innerHeight
         };
 
         this.mapClickHandler = this.mapClickHandler.bind(this);
+        this.createMap = this.createMap.bind(this);
     }
-    componentDidMount(){
+
+
+    componentDidMount() {
         this.createMap();
     }
-    render(){
-        return(
+
+    render() {
+        let viewbox = "0 0 " + window.innerWidth + " " + window.innerHeight;
+        return (
             <div className='container'>
-                {this.state.projection && <Heatmap projection={this.state.projection} visible={this.state.heatmapVisibility} data={this.props.data}/>}
-                <svg width={this.width} height={this.height}>
-                    <g ref={node => this.node = node} className='boundary'>
+                {this.state.projection && <Heatmap projection={this.state.projection} visible={this.state.heatmapVisibility} data={this.props.data} />}
+                <svg viewBox={this.state.viewbox}>
+                    <g ref={node => this.node = node} className='boundary' >
                         {this.state.projection && <Fighters projection={this.state.projection} data={this.props.data} />}
                     </g>
                 </svg>
@@ -53,10 +57,10 @@ class Map extends React.Component<MapProps, MapState>{
                 let path = geoPath().projection(countryProjection);
                 countryProjection.scale(1).translate([0, 0]);
                 let b = path.bounds(countries as any);
-                let s = .95 / Math.max((b[1][0] - b[0][0]) / this.width, (b[1][1] - b[0][1]) / this.height);
-                let t: [number, number] = [(this.width - s * (b[1][0] + b[0][0])) / 2, (this.height - s * (b[1][1] + b[0][1])) / 2];
+                let s = .95 / Math.max((b[1][0] - b[0][0]) / window.innerWidth, (b[1][1] - b[0][1]) / window.innerHeight);
+                let t: [number, number] = [(window.innerWidth - s * (b[1][0] + b[0][0])) / 2, (window.innerHeight - s * (b[1][1] + b[0][1])) / 2];
                 countryProjection.scale(s).translate(t);
-                this.setState({projection: countryProjection})
+                this.setState({ projection: countryProjection })
                 let world = d3.select(this.node).selectAll('path').data(countries.features);
                 world.enter().insert('path', ':first-child')
                     .attr('d', path)
@@ -80,10 +84,9 @@ class Map extends React.Component<MapProps, MapState>{
                 y = centroid[1];
                 k = 2;
                 this.centered = d;
-                console.log(this.centered);
             } else {
-                x = this.width / 2;
-                y = this.height / 2;
+                x = window.innerWidth / 2;
+                y = window.innerHeight / 2;
                 k = 1;
                 this.centered = null;
             }
@@ -105,7 +108,7 @@ class Map extends React.Component<MapProps, MapState>{
             d3.select(this.node)
                 .transition()
                 .duration(750)
-                .attr("transform", "translate(" + this.width / 2 + "," + this.height / 2 + ")scale(" + k + ")translate(" + -x + "," + -y + ")")
+                .attr("transform", "translate(" + window.innerWidth / 2 + "," + window.innerHeight / 2 + ")scale(" + k + ")translate(" + -x + "," + -y + ")")
                 .style("stroke-width", 1.5 / k + "px");
         }
 
