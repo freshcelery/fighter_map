@@ -66,3 +66,11 @@
     border-color: rgb(58, 74, 114);
     background-color: #FFF;
   }
+
+  .menuContent{
+    height: 100%;
+  }
+
+  .menuTab{
+    min-width: 60px;
+  }

@@ -1,12 +1,10 @@
 {
     "compilerOptions": {
-      "allowJs": false,
       "target": "es5",
       "module": "commonjs",
       "outDir": "dist",
       "sourceMap": true,
-      "jsx": "react",
-      "noEmit": true
+      "jsx": "react"
     },
     "compileOnSave": false,
     "include": [

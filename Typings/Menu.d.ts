@@ -1,17 +1,32 @@
-interface MenuProps{
+interface MenuProps {
     menuVisibility: boolean;
     handleMouseDown(event: any): void;
     handleViewChange(event: any): void;
 }
 
-interface MenuContainerProps{
+interface MenuContainerProps {
 }
 
-interface MenuContainerState{
+interface MenuContainerState {
     visible: boolean;
-    menuState: string;
+    menuState: number;
 }
 
-interface MenuButtonProps{
+interface MenuButtonProps {
     handleMouseDown: any
+}
+
+interface HeatmapMenuState {
+    Flyweight?: boolean;
+    Bantamweight?: boolean;
+    Featherweight?: boolean;
+    Lightweight?: boolean;
+    Welterweight?: boolean;
+    Middleweight?: boolean;
+    Light_Heavyweight?: boolean;
+    Heavyweight?: boolean;
+    Women_Strawweight?: boolean;
+    Women_Flyweight?: boolean;
+    Women_Bantamweight?: boolean;
+    Women_Featherweight?: boolean;
 }
