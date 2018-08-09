@@ -1,7 +1,7 @@
 #flyoutMenu {
     width: 20vw;
     height: 100vh;
-    background-color: #887BAF;
+    background-color: #EDF2F4;
     position: fixed;
     top: 0;
     left: 0;
@@ -73,4 +73,13 @@
 
   .menuTab{
     min-width: 60px;
+  }
+
+  .menuForm{
+    width: 100%;
+
+  }
+
+  .menuExpansionPanel{
+    background-color: #8D99AE;
   }

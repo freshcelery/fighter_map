@@ -1,0 +1,138 @@
+.loadingOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 5;
+    width: 100vw;
+    height: 100vh;
+    background-color: #181719;
+  }
+
+  .loadingPoly{
+    stroke:black;
+    stroke-width:0.5;
+    animation-iteration-count: infinite;
+    animation-timing-function: ease-in;
+    animation-direction: alternate;
+    animation-duration: 4s;
+    vector-effect: non-scaling-stroke;
+    
+  }
+  .slice{
+    width: 20%;
+    height: 100%;
+    overflow: hidden;
+    float: left;
+    animation-iteration-count: infinite;
+    animation-timing-function: ease-in;
+    animation-direction: alternate;
+    animation-duration: 4s;
+  }
+  #sliceOne{
+    fill: #2B2D42;
+    animation-name: fadeInFirstImage;
+  }
+
+  #sliceTwo{
+    fill: #8D99AE;
+    animation-name: fadeInSecondImage;
+  }
+
+  #sliceThree{
+    fill: #EDF2F4;
+    animation-name: fadeInThirdImage;
+  }
+
+  #sliceFour{
+    fill: #EF233C;
+    animation-name: fadeInFourthImage;
+  }
+
+  #sliceFive{
+    fill: #D90429;
+    animation-name: fadeInFifthImage;
+  }
+  
+  @keyframes fadeInFirstImage {
+      0% {
+          opacity: 0;
+      }
+      15% {
+          opacity: 1;
+      }
+  }
+  
+  
+  @keyframes fadeInSecondImage {
+      0% {
+          opacity: 0;
+      }
+      15% {
+          opacity: 0;
+      }
+    
+    30% {
+      opacity: 1;
+    }
+  }
+  
+  @keyframes fadeInThirdImage {
+      0% {
+          opacity: 0;
+      }
+      15% {
+          opacity: 0;
+      }
+    
+    30% {
+      opacity: 0;
+    }
+    
+    45% {
+      opacity: 1;
+    }
+  }
+
+  @keyframes fadeInFourthImage {
+    0% {
+        opacity: 0;
+    }
+    15% {
+        opacity: 0;
+    }
+  30% {
+        opacity: 0;
+    }
+    45% {
+        opacity: 0;
+    }
+  
+  60% {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeInFifthImage {
+    0% {
+        opacity: 0;
+    }
+    15% {
+        opacity: 0;
+    }
+  30% {
+        opacity: 0;
+    }
+    45% {
+        opacity: 0;
+    }
+  
+   60% {
+       opacity: 0;
+   }
+
+   75% {
+       opacity: 1;
+   }
+}

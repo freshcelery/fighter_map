@@ -1,15 +1,16 @@
 /// <reference path='../../typings/Menu.d.ts' />
 import * as React from 'react';
 import MenuButton from './MenuButton';
-import Menu from './Menu';
+import FilterMenu from './FilterMenu';
+import ContactMenu from './ContactMenu';
 import HeatmapSettingsMenu from './HeatmapSettingsMenu';
 import onClickOutside from "react-onclickoutside";
-import Paper from '@material-ui/core/Paper';
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import SwipeableViews from 'react-swipeable-views'
-import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider';
+import {MuiThemeProvider} from '@material-ui/core/styles';
+import {theme} from '../Theme';
 
 class MenuContainer extends React.Component<MenuContainerProps, MenuContainerState> {
     constructor(props) {
@@ -19,32 +20,36 @@ class MenuContainer extends React.Component<MenuContainerProps, MenuContainerSta
             menuState: 0,
         };
         this.toggleMenu = this.toggleMenu.bind(this);
-        this.handleMouseDown = this.handleMouseDown.bind(this);
+        this.handleMenuButtonClick = this.handleMenuButtonClick.bind(this);
         this.handleViewChange = this.handleViewChange.bind(this);
     }
+
+    //Closes menu when you click outside
     handleClickOutside = evt => {
         this.setState({ visible: false })
     }
 
+    // Toggles menu open/close on button click
     toggleMenu() {
         this.setState({
             visible: !this.state.visible
         });
     }
 
-    handleMouseDown(e) {
+    handleMenuButtonClick(e) {
         this.toggleMenu();
 
         e.stopPropagation();
     }
 
-    handleViewChange = (event, value) =>{
-        this.setState({ menuState: value});
+    // Handles changing of current active view in menu
+    handleViewChange = (event, value) => {
+        this.setState({ menuState: value });
     }
 
     handleViewIndex = index => {
         this.setState({ menuState: index });
-      };
+    };
 
     render() {
         var visibility = "hide";
@@ -52,23 +57,26 @@ class MenuContainer extends React.Component<MenuContainerProps, MenuContainerSta
             visibility = "show";
         }
 
-        return (
+        return(
+            <MuiThemeProvider theme={theme}>
                 <div>
-                    <MenuButton handleMouseDown={this.handleMouseDown} />
-                    <Paper id="flyoutMenu" className={visibility}>
+                    <MenuButton handleMouseDown={this.handleMenuButtonClick} />
+                    <div id="flyoutMenu" className={visibility}>
                         <AppBar position="static">
-                            <Tabs value={this.state.menuState} onChange={this.handleViewChange} fullWidth={true}>
-                                <Tab label="Filter" style={{minWidth: 60}} />
-                                <Tab label="Heatmap" style={{minWidth: 60}} />
-                                <Tab label="Contact" style={{minWidth: 60}} />
-                            </Tabs>
+                            <Tabs value={this.state.menuState} onChange={this.handleViewChange}>
+                            <Tab label="Filter" style={{ minWidth: 60 }} />
+                            <Tab label="Heatmap" style={{ minWidth: 60 }} />
+                            <Tab label="Contact" style={{ minWidth: 60 }} />
+                        </Tabs>
                         </AppBar>
-                        <SwipeableViews index={this.state.menuState} onChangeIndex={this.handleViewIndex} >
-                            <Menu />
-                            <HeatmapSettingsMenu />
-                        </SwipeableViews>
-                    </Paper>
-                </div>
+                    <SwipeableViews index={this.state.menuState} onChangeIndex={this.handleViewIndex} >
+                        <FilterMenu />
+                        <HeatmapSettingsMenu />
+                        <ContactMenu />
+                    </SwipeableViews>
+                    </div>
+                </div >
+            </MuiThemeProvider >
         );
     }
 }
