@@ -1,7 +1,9 @@
 /// <reference path='../typings/Fighters.d.ts' />
 import * as d3 from 'd3';
 import * as React from 'react';
+import { observer } from 'mobx-react';
 
+@observer
 class Fighters extends React.Component<FighterProps>{
     private node = this.node;
 
@@ -73,8 +75,14 @@ class Fighters extends React.Component<FighterProps>{
     }
 
     render() {
+        let visibility = "hidden";
+
+        if(this.props.state.visible){
+            visibility = "visible"
+        }
+
         return (
-            <g ref={node => this.node = node} className='fighterData' />
+            <g ref={node => this.node = node} id='fighterData' className={visibility} />
         )
     }
 }

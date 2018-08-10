@@ -35,10 +35,10 @@ class Map extends React.Component<MapProps, MapState>{
         let viewbox = "0 0 " + window.innerWidth + " " + window.innerHeight;
         return (
             <div className='container'>
-                {this.state.projection && <Heatmap projection={this.state.projection} visible={this.state.heatmapVisibility} data={this.props.data} />}
+                {this.state.projection && <Heatmap projection={this.state.projection} visible={this.state.heatmapVisibility} data={this.props.data} state={this.props.heatmapState} />}
                 <svg viewBox={this.state.viewbox}>
                     <g ref={node => this.node = node} className='boundary' >
-                        {this.state.projection && <Fighters projection={this.state.projection} data={this.props.data} />}
+                        {this.state.projection && <Fighters projection={this.state.projection} data={this.props.data} state={this.props.fighterState} />}
                     </g>
                 </svg>
                 <div id='tooltip'></div>

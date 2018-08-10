@@ -70,3 +70,13 @@ body,
   opacity:0;
   visibility: hidden;
 }
+
+#fighterData.visible{
+  visibility: visible;
+
+}
+
+
+#fighterData.hidden{
+  visibility: hidden;
+}

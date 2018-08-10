@@ -5,6 +5,8 @@ interface MenuProps {
 }
 
 interface MenuContainerProps {
+    heatmapState: any;
+    fighterState: any;
 }
 
 interface MenuContainerState {

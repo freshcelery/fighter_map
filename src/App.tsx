@@ -5,9 +5,13 @@ import Overlay from './Overlay';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import Axios from 'axios';
+import HeatmapStore from './State/HeatmapStore';
+import FighterStore from './State/FighterStore';
 
 declare const API_PASSWORD: string;
 declare const API_USERNAME: string;
+const HEATMAP_STATE = new HeatmapStore();
+const FIGHTER_STATE = new FighterStore();
 
 class App extends React.Component<any, AppState>{
     constructor(props){
@@ -40,8 +44,8 @@ class App extends React.Component<any, AppState>{
         if(this.state.data){
         return (
             <div>
-                <MenuContainer />
-                <Map data={this.state.data}/>
+                <MenuContainer heatmapState={HEATMAP_STATE} fighterState={FIGHTER_STATE}/>
+                <Map data={this.state.data} heatmapState={HEATMAP_STATE} fighterState={FIGHTER_STATE}/>
             </div>
         );
     }

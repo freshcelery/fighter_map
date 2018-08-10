@@ -1,5 +1,7 @@
 interface MapProps{
     data: any;
+    heatmapState: any;
+    fighterState: any;
 }
 
 interface MapState{

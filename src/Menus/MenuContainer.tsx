@@ -57,6 +57,8 @@ class MenuContainer extends React.Component<MenuContainerProps, MenuContainerSta
             visibility = "show";
         }
 
+        const tabStyle = {minWidth: '60px', width: '33%'};
+
         return(
             <MuiThemeProvider theme={theme}>
                 <div>
@@ -64,14 +66,14 @@ class MenuContainer extends React.Component<MenuContainerProps, MenuContainerSta
                     <div id="flyoutMenu" className={visibility}>
                         <AppBar position="static">
                             <Tabs value={this.state.menuState} onChange={this.handleViewChange}>
-                            <Tab label="Filter" style={{ minWidth: 60 }} />
-                            <Tab label="Heatmap" style={{ minWidth: 60 }} />
-                            <Tab label="Contact" style={{ minWidth: 60 }} />
+                            <Tab label="Filter" style={tabStyle} />
+                            <Tab label="Heatmap" style={tabStyle} />
+                            <Tab label="Contact" style={tabStyle} />
                         </Tabs>
                         </AppBar>
                     <SwipeableViews index={this.state.menuState} onChangeIndex={this.handleViewIndex} >
-                        <FilterMenu />
-                        <HeatmapSettingsMenu />
+                        <FilterMenu state={this.props.fighterState}/>
+                        <HeatmapSettingsMenu state={this.props.heatmapState}/>
                         <ContactMenu />
                     </SwipeableViews>
                     </div>

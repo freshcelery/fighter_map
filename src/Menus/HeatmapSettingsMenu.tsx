@@ -1,7 +1,6 @@
 /// <reference path='../../typings/Menu.d.ts' />
 import * as React from "react";
 import Checkbox from '@material-ui/core/Checkbox';
-import FormLabel from '@material-ui/core/FormLabel';
 import FormControl from '@material-ui/core/FormControl';
 import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
@@ -10,40 +9,42 @@ import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import { MuiThemeProvider } from '@material-ui/core/styles';
 import { theme } from '../Theme';
+import { observer } from 'mobx-react';
 
+@observer
 class HeatmapSettingsMenu extends React.Component<any, HeatmapMenuState> {
 
     constructor(props) {
         super(props);
 
-        this.state = {
-            Flyweight: true,
-            Bantamweight: false,
-            Featherweight: false,
-            Lightweight: false,
-            Welterweight: false,
-            Middleweight: false,
-            Light_Heavyweight: false,
-            Heavyweight: true,
-            Women_Strawweight: false,
-            Women_Flyweight: false,
-            Women_Bantamweight: true,
-            Women_Featherweight: false
-        };
 
         this.handleChange = this.handleChange.bind(this);
+        this.handleVisibilityChange = this.handleVisibilityChange.bind(this);
     }
 
     handleChange = weightclass => event => {
-        this.setState({ [weightclass]: event.currentTarget.checked });
+        this.props.state.toggleWeightclass(weightclass);
+    }
+
+    handleVisibilityChange() {
+        this.props.state.toggleVisibility();
     }
 
     render() {
-        const { Flyweight, Bantamweight, Featherweight, Lightweight, Welterweight, Middleweight, Light_Heavyweight, Heavyweight, Women_Strawweight, Women_Flyweight, Women_Bantamweight, Women_Featherweight } = this.state;
+        const { Flyweight, Bantamweight, Featherweight, Lightweight, Welterweight, Middleweight, Light_Heavyweight, Heavyweight, Women_Strawweight, Women_Flyweight, Women_Bantamweight, Women_Featherweight } = this.props.state.weightclasses;
+        const { visible } = this.props.state;
         return (
             <MuiThemeProvider theme={theme}>
                 <div className="menuContent">
                     <FormControl className="menuForm">
+                        <FormGroup>
+                            <FormControlLabel
+                                control={
+                                    <Checkbox value="Visible" checked={visible} onChange={this.handleVisibilityChange} />
+                                }
+                                label="Flyweight">
+                            </FormControlLabel>
+                        </FormGroup>
                         <ExpansionPanel className="menuExpansionPanel">
                             <ExpansionPanelSummary> Men's Divisions </ExpansionPanelSummary>
                             <ExpansionPanelDetails>
