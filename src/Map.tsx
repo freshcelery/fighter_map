@@ -1,12 +1,24 @@
-/// <reference path='../typings/Map.d.ts' />
-
-import { geoMercator, geoPath } from 'd3-geo';
+import * as React from 'react';
 import * as d3 from 'd3';
-import { feature } from 'topojson-client';
 import Heatmap from './Heatmap';
 import Fighters from './Fighters';
-import * as React from 'react';
+import { geoMercator, geoPath } from 'd3-geo';
+import { feature } from 'topojson-client';
+import { observer } from 'mobx-react';
 
+interface MapProps{
+    data: any;
+    heatmapState: any;
+    fighterState: any;
+}
+
+interface MapState{
+    heatmapVisibility?: boolean;
+    projection: any;
+    viewbox: any;
+}
+
+@observer
 class Map extends React.Component<MapProps, MapState>{
     private centered: any;
     private node = this.node;
@@ -35,7 +47,7 @@ class Map extends React.Component<MapProps, MapState>{
         let viewbox = "0 0 " + window.innerWidth + " " + window.innerHeight;
         return (
             <div className='container'>
-                {this.state.projection && <Heatmap projection={this.state.projection} visible={this.state.heatmapVisibility} data={this.props.data} state={this.props.heatmapState} />}
+                {this.state.projection && <Heatmap projection={this.state.projection} data={this.props.data} state={this.props.heatmapState} />}
                 <svg viewBox={this.state.viewbox}>
                     <g ref={node => this.node = node} className='boundary' >
                         {this.state.projection && <Fighters projection={this.state.projection} data={this.props.data} state={this.props.fighterState} />}
@@ -91,15 +103,12 @@ class Map extends React.Component<MapProps, MapState>{
                 this.centered = null;
             }
 
+            // If map is zoomed, hide heatmap
             if (d === this.centered) {
-                this.setState({
-                    heatmapVisibility: false
-                });
+                this.props.heatmapState.disableHeatmap();
                 d3.select(this.node).selectAll("circle").attr('r', 1);
             } else {
-                this.setState({
-                    heatmapVisibility: true
-                });
+                this.props.heatmapState.disableHeatmap();
                 d3.select(this.node).selectAll("circle").attr('r', 5);
             }
             d3.select(this.node).selectAll("path")

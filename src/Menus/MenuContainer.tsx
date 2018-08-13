@@ -1,4 +1,3 @@
-/// <reference path='../../typings/Menu.d.ts' />
 import * as React from 'react';
 import MenuButton from './MenuButton';
 import FilterMenu from './FilterMenu';
@@ -11,6 +10,17 @@ import Tab from '@material-ui/core/Tab';
 import SwipeableViews from 'react-swipeable-views'
 import {MuiThemeProvider} from '@material-ui/core/styles';
 import {theme} from '../Theme';
+
+interface MenuContainerProps {
+    heatmapState: any;
+    fighterState: any;
+}
+
+interface MenuContainerState {
+    visible: boolean;
+    menuState: number;
+}
+
 
 class MenuContainer extends React.Component<MenuContainerProps, MenuContainerState> {
     constructor(props) {

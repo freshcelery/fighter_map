@@ -1,4 +1,3 @@
-/// <reference path='../typings/App.d.ts' />
 import Map from "./Map";
 import MenuContainer from './Menus/MenuContainer';
 import Overlay from './Overlay';
@@ -7,6 +6,10 @@ import * as ReactDOM from 'react-dom';
 import Axios from 'axios';
 import HeatmapStore from './State/HeatmapStore';
 import FighterStore from './State/FighterStore';
+
+interface AppState{
+    data: JSON;
+}
 
 declare const API_PASSWORD: string;
 declare const API_USERNAME: string;

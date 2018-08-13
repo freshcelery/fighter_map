@@ -59,16 +59,22 @@ body,
   top: 0;
 }
 
+
 #heatmap.visible{
   visibility: visible;
-  opacity: 1;
-  transition: opacity 3s ease-in;
 }
 
-
 #heatmap.hidden{
-  opacity:0;
   visibility: hidden;
+}
+/* These need to be after visible/hidden */
+#heatmap.disabled{
+  opacity:0;
+}
+
+#heatmap.enabled{
+  opacity: 1;
+  transition: opacity 3s ease-in;
 }
 
 #fighterData.visible{

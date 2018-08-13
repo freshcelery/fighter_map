@@ -1,4 +1,3 @@
-/// <reference path='../../typings/Menu.d.ts' />
 import * as React from "react";
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControl from '@material-ui/core/FormControl';
@@ -11,8 +10,12 @@ import { MuiThemeProvider } from '@material-ui/core/styles';
 import { theme } from '../Theme';
 import { observer } from 'mobx-react';
 
+interface HeatMapSettingProps{
+    state: any;
+}
+
 @observer
-class HeatmapSettingsMenu extends React.Component<any, HeatmapMenuState> {
+class HeatmapSettingsMenu extends React.Component<HeatMapSettingProps> {
 
     constructor(props) {
         super(props);
@@ -42,7 +45,7 @@ class HeatmapSettingsMenu extends React.Component<any, HeatmapMenuState> {
                                 control={
                                     <Checkbox value="Visible" checked={visible} onChange={this.handleVisibilityChange} />
                                 }
-                                label="Flyweight">
+                                label="Visible">
                             </FormControlLabel>
                         </FormGroup>
                         <ExpansionPanel className="menuExpansionPanel">

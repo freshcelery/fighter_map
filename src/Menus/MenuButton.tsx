@@ -1,5 +1,8 @@
-/// <reference path='../../typings/Menu.d.ts' />
 import * as React from 'react';
+
+interface MenuButtonProps {
+    handleMouseDown: any;
+}
 
 class MenuButton extends React.Component<MenuButtonProps>{
     render(){

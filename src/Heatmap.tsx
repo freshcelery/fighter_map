@@ -1,50 +1,54 @@
-/// <reference path='../typings/Heatmap.d.ts' />
-
 import * as simpleheat from "simpleheat";
 import * as React from 'react';
 import { observer } from 'mobx-react';
 
+interface HeatmapProps{
+    projection: any;
+    data: any;
+    state: any;
+}
+
 @observer 
-export class Heatmap extends React.Component<HeatmapProps, HeatmapState>{
+export class Heatmap extends React.Component<HeatmapProps, any>{
     private canvas;
+    private canvasRef;
     readonly POINT_RADIUS = 10;
     readonly BLUR_RADIUS = 25;
 
     constructor(props: HeatmapProps) {
         super(props);
-        this.state = {
-            Flyweight: true,
-            Bantamweight: false,
-            Featherweight: false,
-            Lightweight: false,
-            Welterweight: false,
-            Middleweight: false,
-            Light_Heavyweight: false,
-            Heavyweight: true,
-            Women_Strawweight: false,
-            Women_Flyweight: false,
-            Women_Bantamweight: true,
-            Women_Featherweight: false
-        };
+        this.canvasRef = React.createRef();
     }
 
     render(){
-        const {visible, weightclasses } = this.props.state;
-        console.log(this.state.Flyweight);
+        const {visible} = this.props.state;
+
         let visibility = "hidden";
 
         if(visible){
             visibility = "visible"
         }
 
+        const {disabled} = this.props.state;
+        let disabledState = "enabled";
+        if(disabled){
+            disabledState = "disabled";
+        }
+        const classes = `${disabledState} ${visibility}`
+        let enabledWeightclasses = this.enabledWeightclasses();
+        let weightclassAttr = {'weightclasses': enabledWeightclasses.join(' ')};
+
         return(
-            <canvas ref="canvas" width={window.innerWidth} height={window.innerHeight} id='heatmap' className={visibility}></canvas>
+            <canvas ref={this.canvasRef} width={window.innerWidth} height={window.innerHeight} id='heatmap' className={classes} {...weightclassAttr}></canvas>
         );
         
     }
 
+    componentDidMount(){
+        this.buildHeatMap();
+    }
 
-    componentDidMount() {
+    componentDidUpdate(){
         this.buildHeatMap();
     }
 
@@ -55,13 +59,14 @@ export class Heatmap extends React.Component<HeatmapProps, HeatmapState>{
             let cy = this.props.projection([this.props.data[fighter].longitude, this.props.data[fighter].latitude])[1]
             let currentWeightclass = this.props.data[fighter].weightclass;
             let value = 0;
-            if (currentWeightclass === 'Welterweight'){
+            let enabledWeightclasses = this.enabledWeightclasses();
+            if (enabledWeightclasses.indexOf(currentWeightclass) > -1){
                 value = 1;
             }
             array.push([cx, cy, value])
 
         }
-        this.canvas = this.refs.canvas as any;
+        this.canvas = this.canvasRef.current;
         let heat = simpleheat(this.canvas);
         heat.data(array);
         heat.max(1);
@@ -70,12 +75,15 @@ export class Heatmap extends React.Component<HeatmapProps, HeatmapState>{
     }
 
     enabledWeightclasses(){
-        let {weightclasses} = this.props.state;
+        const { weightclasses } = this.props.state;
+        let weightclassArray = []
         for (let weightclass in weightclasses){
             if(weightclasses[weightclass]){
-                this.setState({[weightclass]: true});
+               weightclassArray.push(weightclass)
             }
-        } 
+        }
+
+        return weightclassArray;
     }
 }
 

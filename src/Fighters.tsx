@@ -1,7 +1,12 @@
-/// <reference path='../typings/Fighters.d.ts' />
 import * as d3 from 'd3';
 import * as React from 'react';
 import { observer } from 'mobx-react';
+
+interface FighterProps{
+    data: any;
+    projection: any;
+    state: any;
+}
 
 @observer
 class Fighters extends React.Component<FighterProps>{
@@ -11,8 +16,12 @@ class Fighters extends React.Component<FighterProps>{
         super(props);
     }
 
-    componentDidMount() {
-        this.plotFighterData();
+    componentDidMount(){
+        this.plotFighterData(this.props.data);
+    }
+
+    componentDidUpdate(){
+        this.plotFighterData(this.props.data);
     }
 
     fighter_mouseover_event() {
@@ -36,12 +45,12 @@ class Fighters extends React.Component<FighterProps>{
             let div = document.getElementById('tooltip');
             div.style.visibility = 'hidden';
         }
-
+ 
         return hover
     }
 
-    plotFighterData() {
-        let fighterPoints = d3.select(this.node).selectAll('circle').data(this.props.data);
+    plotFighterData(data) {
+        let fighterPoints = d3.select(this.node).selectAll('circle').data(data);
         fighterPoints.enter()
             .append('circle')
             .attr('cx', (d: any) => {
@@ -84,6 +93,10 @@ class Fighters extends React.Component<FighterProps>{
         return (
             <g ref={node => this.node = node} id='fighterData' className={visibility} />
         )
+    }
+
+    filterData(){
+
     }
 }
 

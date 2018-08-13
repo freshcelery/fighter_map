@@ -1,4 +1,4 @@
-import {observable, action} from 'mobx';
+import {observable, action, reaction, autorun} from 'mobx';
 
 export default class HeatmapStore {
     @observable weightclasses = {
@@ -17,6 +17,7 @@ export default class HeatmapStore {
     };
 
     @observable visible = true;
+    @observable disabled = false;
 
     @action toggleWeightclass(weightclass){
         this.weightclasses[weightclass] = !this.weightclasses[weightclass];
@@ -25,4 +26,9 @@ export default class HeatmapStore {
     @action toggleVisibility(){
         this.visible = !this.visible;
     }
+
+    @action disableHeatmap(){
+        this.disabled = !this.disabled;
+    }
+
 }
