@@ -2,17 +2,17 @@ import {observable, action, reaction, autorun} from 'mobx';
 
 export default class HeatmapStore {
     @observable weightclasses = {
-        Flyweight: true,
+        Flyweight: false,
         Bantamweight: false,
         Featherweight: false,
         Lightweight: false,
         Welterweight: false,
         Middleweight: false,
         Light_Heavyweight: false,
-        Heavyweight: true,
+        Heavyweight: false,
         Women_Strawweight: false,
         Women_Flyweight: false,
-        Women_Bantamweight: true,
+        Women_Bantamweight: false,
         Women_Featherweight: false
     };
 

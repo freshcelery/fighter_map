@@ -2,6 +2,7 @@ import * as React from 'react';
 import * as d3 from 'd3';
 import Heatmap from './Heatmap';
 import Fighters from './Fighters';
+import FighterInfo from './FighterInfo';
 import { geoMercator, geoPath } from 'd3-geo';
 import { feature } from 'topojson-client';
 import { observer } from 'mobx-react';
@@ -10,6 +11,7 @@ interface MapProps{
     data: any;
     heatmapState: any;
     fighterState: any;
+    fighterInfoState: any;
 }
 
 interface MapState{
@@ -47,10 +49,11 @@ class Map extends React.Component<MapProps, MapState>{
         let viewbox = "0 0 " + window.innerWidth + " " + window.innerHeight;
         return (
             <div className='container'>
+                <FighterInfo fighterInfoState={this.props.fighterInfoState} />
                 {this.state.projection && <Heatmap projection={this.state.projection} data={this.props.data} state={this.props.heatmapState} />}
                 <svg viewBox={this.state.viewbox}>
                     <g ref={node => this.node = node} className='boundary' >
-                        {this.state.projection && <Fighters projection={this.state.projection} data={this.props.data} state={this.props.fighterState} />}
+                        {this.state.projection && <Fighters projection={this.state.projection} data={this.props.data} state={this.props.fighterState} fighterInfoState={this.props.fighterInfoState} />}
                     </g>
                 </svg>
                 <div id='tooltip'></div>

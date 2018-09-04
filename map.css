@@ -82,7 +82,24 @@ body,
 
 }
 
-
 #fighterData.hidden{
   visibility: hidden;
+}
+
+.fighter{
+  cursor: pointer;
+}
+
+.FighterInfo{
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin-top: 1em;
+  margin-right: 1em;
+  padding: 0.5em;
+}
+
+#closeButton{
+  min-width: 2em;
+  padding: 0;
 }

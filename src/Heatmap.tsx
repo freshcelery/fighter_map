@@ -8,7 +8,7 @@ interface HeatmapProps{
     state: any;
 }
 
-@observer 
+@observer
 export class Heatmap extends React.Component<HeatmapProps, any>{
     private canvas;
     private canvasRef;
@@ -35,13 +35,13 @@ export class Heatmap extends React.Component<HeatmapProps, any>{
             disabledState = "disabled";
         }
         const classes = `${disabledState} ${visibility}`
-        let enabledWeightclasses = this.enabledWeightclasses();
+        let enabledWeightclasses = this.getEnabledWeightclasses();
         let weightclassAttr = {'weightclasses': enabledWeightclasses.join(' ')};
 
         return(
             <canvas ref={this.canvasRef} width={window.innerWidth} height={window.innerHeight} id='heatmap' className={classes} {...weightclassAttr}></canvas>
         );
-        
+
     }
 
     componentDidMount(){
@@ -53,28 +53,25 @@ export class Heatmap extends React.Component<HeatmapProps, any>{
     }
 
     buildHeatMap() {
-        let array = [];
+        let fighterData = [];
         for (let fighter in this.props.data) {
             let cx = this.props.projection([this.props.data[fighter].longitude, this.props.data[fighter].latitude])[0]
             let cy = this.props.projection([this.props.data[fighter].longitude, this.props.data[fighter].latitude])[1]
             let currentWeightclass = this.props.data[fighter].weightclass;
-            let value = 0;
-            let enabledWeightclasses = this.enabledWeightclasses();
+            let enabledWeightclasses = this.getEnabledWeightclasses();
             if (enabledWeightclasses.indexOf(currentWeightclass) > -1){
-                value = 1;
+                fighterData.push([cx, cy])
             }
-            array.push([cx, cy, value])
 
         }
         this.canvas = this.canvasRef.current;
         let heat = simpleheat(this.canvas);
-        heat.data(array);
-        heat.max(1);
+        heat.data(fighterData);
         heat.radius(this.POINT_RADIUS, this.BLUR_RADIUS);
         heat.draw(0.05);
     }
 
-    enabledWeightclasses(){
+    getEnabledWeightclasses(){
         const { weightclasses } = this.props.state;
         let weightclassArray = []
         for (let weightclass in weightclasses){

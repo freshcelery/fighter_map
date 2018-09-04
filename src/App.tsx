@@ -6,6 +6,7 @@ import * as ReactDOM from 'react-dom';
 import Axios from 'axios';
 import HeatmapStore from './State/HeatmapStore';
 import FighterStore from './State/FighterStore';
+import FighterInfoStore from './State/FighterInfoStore';
 
 interface AppState{
     data: JSON;
@@ -15,6 +16,7 @@ declare const API_PASSWORD: string;
 declare const API_USERNAME: string;
 const HEATMAP_STATE = new HeatmapStore();
 const FIGHTER_STATE = new FighterStore();
+const FIGHTER_INFO_STATE = new FighterInfoStore();
 
 class App extends React.Component<any, AppState>{
     constructor(props){
@@ -36,7 +38,6 @@ class App extends React.Component<any, AppState>{
                 }
             }
             ).then((response) => {
-                console.log("state changed");
                 this.setState({
                     data: response.data.results
                 });
@@ -48,7 +49,7 @@ class App extends React.Component<any, AppState>{
         return (
             <div>
                 <MenuContainer heatmapState={HEATMAP_STATE} fighterState={FIGHTER_STATE}/>
-                <Map data={this.state.data} heatmapState={HEATMAP_STATE} fighterState={FIGHTER_STATE}/>
+                <Map data={this.state.data} heatmapState={HEATMAP_STATE} fighterState={FIGHTER_STATE} fighterInfoState={FIGHTER_INFO_STATE}/>
             </div>
         );
     }

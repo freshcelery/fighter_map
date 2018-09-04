@@ -1,6 +1,6 @@
 import {observable, action} from 'mobx';
 
-export default class HeatmapStore {
+export default class FighterStore {
     @observable weightclasses = {
         Flyweight: true,
         Bantamweight: false,
