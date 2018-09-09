@@ -11,6 +11,7 @@
   left: -150px;
   font-family: "HelveticaNeue-Light", "Helvetica Neue Light",
   "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+  pointer-events: none;
 }
 
 #tooltip svg {
@@ -87,6 +88,11 @@ body,
 }
 
 .fighter{
+  pointer-events: none;
+}
+
+.fighterBorder{
+  opacity: 0;
   cursor: pointer;
 }
 

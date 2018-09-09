@@ -7,14 +7,14 @@ import { geoMercator, geoPath } from 'd3-geo';
 import { feature } from 'topojson-client';
 import { observer } from 'mobx-react';
 
-interface MapProps{
+interface MapProps {
     data: any;
     heatmapState: any;
     fighterState: any;
     fighterInfoState: any;
 }
 
-interface MapState{
+interface MapState {
     heatmapVisibility?: boolean;
     projection: any;
     viewbox: any;
@@ -33,7 +33,7 @@ class Map extends React.Component<MapProps, MapState>{
         this.state = {
             heatmapVisibility: true,
             projection: undefined,
-            viewbox: "0 0 " + window.innerWidth + " " +  window.innerHeight
+            viewbox: "0 0 " + window.innerWidth + " " + window.innerHeight
         };
 
         this.mapClickHandler = this.mapClickHandler.bind(this);
@@ -109,10 +109,12 @@ class Map extends React.Component<MapProps, MapState>{
             // If map is zoomed, hide heatmap
             if (d === this.centered) {
                 this.props.heatmapState.disableHeatmap();
-                d3.select(this.node).selectAll("circle").attr('r', 1);
+                d3.select(this.node).selectAll(".fighterBorder").attr('r', 5);
+                d3.select(this.node).selectAll(".fighter").attr('r', 2.5);
             } else {
                 this.props.heatmapState.disableHeatmap();
-                d3.select(this.node).selectAll("circle").attr('r', 5);
+                d3.select(this.node).selectAll(".fighterBorder").attr('r', 10);
+                d3.select(this.node).selectAll(".fighter").attr('r', 5);
             }
             d3.select(this.node).selectAll("path")
                 .classed("active", (d) => { return d === this.centered });
