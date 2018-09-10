@@ -30,11 +30,16 @@ class Fighters extends React.Component<FighterProps>{
 
     fighter_onclick_event() {
         let click = (d) => {
+            let fighterInfo = document.getElementsByClassName('FighterInfo')[0] as HTMLElement;
             if (!this.props.fighterInfoState.showFighterInfo) {
                 this.props.fighterInfoState.toggleFighterInfo();
             }
+            // Hide name div
+            let tooltip = document.getElementById('tooltip');
+            tooltip.style.visibility = 'hidden';
             this.props.fighterInfoState.currentFighterData = d;
-            console.log(this.props.fighterInfoState.currentFighterData.name)
+            this.props.fighterInfoState.fighterLeft = d3.event.pageX + 'px';
+            this.props.fighterInfoState.fighterTop = d3.event.pageY + 'px';
         }
 
         return click
@@ -47,11 +52,11 @@ class Fighters extends React.Component<FighterProps>{
             d3.select(this.parentNode).select('.fighter').transition().ease(d3.easeCircle).duration(250).attr('r', Number(test.attr('r')));
 
             // Show name div
-            let div = document.getElementById('tooltip');
-            div.style.left = d3.event.pageX + 'px';
-            div.style.top = d3.event.pageY + 'px';
-            div.innerHTML = d.name
-            div.style.visibility = 'visible';
+            let tooltip = document.getElementById('tooltip');
+            tooltip.style.left = d3.event.pageX + 'px';
+            tooltip.style.top = d3.event.pageY + 'px';
+            tooltip.innerHTML = d.name
+            tooltip.style.visibility = 'visible';
         }
 
         return hover
@@ -64,8 +69,8 @@ class Fighters extends React.Component<FighterProps>{
             d3.select(this.parentNode).select('.fighter').transition().ease(d3.easeCircle).duration(250).attr('r', Number(test.attr('r')) / 2);
 
             // Hide name div
-            let div = document.getElementById('tooltip');
-            div.style.visibility = 'hidden';
+            let tooltip = document.getElementById('tooltip');
+            tooltip.style.visibility = 'hidden';
         }
 
         return hover

@@ -5,14 +5,14 @@ import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import { MuiThemeProvider } from '@material-ui/core/styles';
 import { theme } from './Theme';
-interface FighterInfoProps{
+interface FighterInfoProps {
     fighterInfoState: any;
 }
 
 @observer
 class FighterInfo extends React.Component<FighterInfoProps>{
 
-    constructor(props){
+    constructor(props) {
         super(props);
         this.handleCloseButton = this.handleCloseButton.bind(this);
     }
@@ -21,19 +21,24 @@ class FighterInfo extends React.Component<FighterInfoProps>{
         this.props.fighterInfoState.toggleFighterInfo();
     }
 
-    render(){
+    render() {
 
         //Hide if no fighter clicked or show is false
-        if(!this.props.fighterInfoState.currentFighterData || !this.props.fighterInfoState.showFighterInfo){
-            return(
+        if (!this.props.fighterInfoState.currentFighterData || !this.props.fighterInfoState.showFighterInfo) {
+            return (
                 null
             )
         }
-        return(
+
+        let style = {
+            top: this.props.fighterInfoState.fighterTop,
+            left: this.props.fighterInfoState.fighterLeft
+        }
+        return (
             <MuiThemeProvider theme={theme}>
-                <Paper className="FighterInfo">
+                <Paper className="FighterInfo" style={style}>
                     <Button id="closeButton" onClick={this.handleCloseButton}>
-                    x
+                        x
                     </Button>
                     <Typography variant="headline" component="h3">
                         {this.props.fighterInfoState.currentFighterData.name}
@@ -65,10 +70,10 @@ class FighterInfo extends React.Component<FighterInfoProps>{
     }
 
     //Changes height from inches to feet' inches" format
-    formatHeight(heightInInches){
+    formatHeight(heightInInches) {
         let inches = heightInInches % 12;
         let feet = (heightInInches - inches) / 12;
-        return feet + "\' " + inches + "\"";  
+        return feet + "\' " + inches + "\"";
     }
 
 
