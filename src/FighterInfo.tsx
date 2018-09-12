@@ -32,38 +32,51 @@ class FighterInfo extends React.Component<FighterInfoProps>{
 
         let style = {
             top: this.props.fighterInfoState.fighterTop,
-            left: this.props.fighterInfoState.fighterLeft
+            left: this.props.fighterInfoState.fighterLeft,
+            marginTop: 0,
+            padding: 0,
         }
+
         return (
             <MuiThemeProvider theme={theme}>
                 <Paper className="FighterInfo" style={style}>
-                    <Button id="closeButton" onClick={this.handleCloseButton}>
+                    <div id="fighterInfoControlHeader">
+                        <div id="fighterInfoPointer"></div>
+                        <Button id="fighterInfoCloseButton" onClick={this.handleCloseButton}>
                         x
-                    </Button>
-                    <Typography variant="headline" component="h3">
+                        </Button>
+                    </div>
+                    <Typography variant="headline" component="h3" id="fighterInfoHeader" align="center">
                         {this.props.fighterInfoState.currentFighterData.name}
                     </Typography>
+                    <div id="fighterInfoImageBox">
+                        <img src={"../data/images/" + this.get_fighter_image()} />
+                    </div>
+                    <div id="fighterInfoStatsBox">
+                        <div id="fighterInfoContent">
                     <Typography component="p">
-                        birthplace: {this.props.fighterInfoState.currentFighterData.birthplace}
+                        Birthplace: {this.props.fighterInfoState.currentFighterData.birthplace}
                     </Typography>
                     <Typography component="p">
-                        age: {this.props.fighterInfoState.currentFighterData.age}
+                        Age: {this.props.fighterInfoState.currentFighterData.age}
                     </Typography>
                     <Typography component="p">
-                        height: {this.formatHeight(this.props.fighterInfoState.currentFighterData.height)}
+                        Height: {this.formatHeight(this.props.fighterInfoState.currentFighterData.height)}
                     </Typography>
                     <Typography component="p">
-                        weight: {this.props.fighterInfoState.currentFighterData.weight} lbs
+                        Weight: {this.props.fighterInfoState.currentFighterData.weight} lbs
                     </Typography>
                     <Typography component="p">
-                        weightclass: {this.props.fighterInfoState.currentFighterData.weightclass}
+                        Weightclass: {this.props.fighterInfoState.currentFighterData.weightclass}
                     </Typography>
                     <Typography component="p">
-                        reach: {this.props.fighterInfoState.currentFighterData.reach}"
+                        Reach: {this.props.fighterInfoState.currentFighterData.reach}"
                     </Typography>
                     <Typography component="p">
-                        record: {this.props.fighterInfoState.currentFighterData.wins}/{this.props.fighterInfoState.currentFighterData.losses}/{this.props.fighterInfoState.currentFighterData.draws}
+                        Record: {this.props.fighterInfoState.currentFighterData.wins}/{this.props.fighterInfoState.currentFighterData.losses}/{this.props.fighterInfoState.currentFighterData.draws}
                     </Typography>
+                    </div>
+                    </div>
                 </Paper>
             </MuiThemeProvider>
         )
@@ -76,6 +89,11 @@ class FighterInfo extends React.Component<FighterInfoProps>{
         return feet + "\' " + inches + "\"";
     }
 
+    get_fighter_image(){
+        let name = this.props.fighterInfoState.currentFighterData.name.split(' ').join('_');
+        let path = this.props.fighterInfoState.currentFighterData.weightclass + '/' + name + '.jpg';
+        return path;
+    }
 
 }
 

@@ -100,12 +100,50 @@ body,
   position: absolute;
   top: 0;
   right: 0;
-  margin-top: 1em;
   margin-right: 1em;
-  padding: 0.5em;
+  width: 15em;
+  /* This needs to be on top of everything except the sidebar */
+  z-index: 10;
 }
 
-#closeButton{
+#fighterInfoImageBox{
+  margin: 2%;
+  width: 94%;
+  border-radius: 5px;
+  border: 2px solid #464646
+}
+
+#fighterInfoImageBox img{
+  max-width: 100%;
+  max-height: 100%;
+}
+
+#fighterInfoStatsBox{
+  margin: 2%;
+  width: 94%;
+  border-radius: 5px;
+  border: 2px solid #464646
+}
+
+#fighterInfoContent{
+  margin: 2%;
+}
+
+#fighterInfoControlHeader{
+  height: 1em;
+}
+
+#fighterInfoPointer{
+  float: left;
+  width: 0;
+  height: 0;
+  border-top: 1em solid #2f2f2f;
+  border-right: 1em solid transparent;
+}
+
+#fighterInfoCloseButton{
   min-width: 2em;
+  min-height: 1em;
   padding: 0;
+  float: right;
 }

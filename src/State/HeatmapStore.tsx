@@ -27,7 +27,7 @@ export default class HeatmapStore {
         this.visible = !this.visible;
     }
 
-    @action disableHeatmap(){
+    @action toggleDisabled(){
         this.disabled = !this.disabled;
     }
 

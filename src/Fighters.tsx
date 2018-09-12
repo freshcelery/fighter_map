@@ -27,7 +27,6 @@ class Fighters extends React.Component<FighterProps>{
         this.plotFighterData();
     }
 
-
     fighter_onclick_event() {
         let click = (d) => {
             let fighterInfo = document.getElementsByClassName('FighterInfo')[0] as HTMLElement;
@@ -38,8 +37,9 @@ class Fighters extends React.Component<FighterProps>{
             let tooltip = document.getElementById('tooltip');
             tooltip.style.visibility = 'hidden';
             this.props.fighterInfoState.currentFighterData = d;
-            this.props.fighterInfoState.fighterLeft = d3.event.pageX + 'px';
-            this.props.fighterInfoState.fighterTop = d3.event.pageY + 'px';
+            //Add 5 pixels so the info doesn't appear directly on top of point
+            this.props.fighterInfoState.fighterLeft = (d3.event.pageX + 5) + 'px';
+            this.props.fighterInfoState.fighterTop = (d3.event.pageY + 5) + 'px';
         }
 
         return click
@@ -77,43 +77,34 @@ class Fighters extends React.Component<FighterProps>{
     }
 
     plotFighterData() {
+        let outerRadius = 10;
+        //check if map is zoomed in when redrawing data
+        if(document.getElementsByClassName('zoomed').length > 0){
+            outerRadius = 5;
+        }
         let data = JSON.parse(this.filterData());
         let fighterPoints = d3.select(this.node).selectAll('circle').data(data);
         let g = fighterPoints.enter()
             .append('g')
             .attr("transform", (d: any) => { return "translate(" + this.props.projection([d.longitude, d.latitude])[0] + "," + this.props.projection([d.longitude, d.latitude])[1] + ")" })
+
         // Create outer circle for ease of click
         let outerCircle = g.append('circle')
-            .attr('r', 10)
+            .attr('r', outerRadius)
             .attr('class', 'fighterBorder')
             .on('click', this.fighter_onclick_event())
             .on('mouseover', this.fighter_mouseover_event())
             .on('mouseout', this.fighter_mouseout_event())
+
         // Create inner circle for visualization
         let innerCircle = g.append('circle')
-            .attr('r', Number(outerCircle.attr('r')) / 2)
-            .attr('fill', '#21a9de')
-            .attr('class', 'fighter')
-        this.applyGlow();
+                .attr('r', outerRadius/2)
+                .attr('fill', '#21a9de')
+                .attr('class', 'fighter');
 
         fighterPoints.exit().remove();
     }
 
-    applyGlow() {
-        let defs = d3.select(this.node).append("defs");
-        let filter = defs.append('filter')
-            .attr('id', 'glow')
-        filter.append('feGaussianBlur')
-            .attr("stdDeviation", "2")
-            .attr("result", "coloredBlur");
-        let feMerge = filter.append("feMerge");
-        feMerge.append("feMergeNode")
-            .attr("in", "coloredBlur");
-        feMerge.append("feMergeNode")
-            .attr("in", "SourceGraphic");
-
-        d3.selectAll('.fighterData').style('filter', 'url(#glow)');
-    }
 
     render() {
         let visibility = "hidden";
@@ -153,6 +144,8 @@ class Fighters extends React.Component<FighterProps>{
 
         return weightclassArray;
     }
+
+    
 }
 
 export default Fighters

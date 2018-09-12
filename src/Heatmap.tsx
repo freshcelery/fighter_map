@@ -30,6 +30,7 @@ export class Heatmap extends React.Component<HeatmapProps, any>{
         }
 
         const {disabled} = this.props.state;
+        console.log(disabled)
         let disabledState = "enabled";
         if(disabled){
             disabledState = "disabled";

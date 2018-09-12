@@ -18,6 +18,7 @@ interface MapState {
     heatmapVisibility?: boolean;
     projection: any;
     viewbox: any;
+    zoomed: boolean;
 }
 
 @observer
@@ -33,7 +34,8 @@ class Map extends React.Component<MapProps, MapState>{
         this.state = {
             heatmapVisibility: true,
             projection: undefined,
-            viewbox: "0 0 " + window.innerWidth + " " + window.innerHeight
+            viewbox: "0 0 " + window.innerWidth + " " + window.innerHeight,
+            zoomed: false
         };
 
         this.mapClickHandler = this.mapClickHandler.bind(this);
@@ -43,6 +45,7 @@ class Map extends React.Component<MapProps, MapState>{
 
     componentDidMount() {
         this.createMap();
+        this.zoom_handler();
     }
 
     render() {
@@ -108,13 +111,11 @@ class Map extends React.Component<MapProps, MapState>{
 
             // If map is zoomed, hide heatmap
             if (d === this.centered) {
-                this.props.heatmapState.disableHeatmap();
-                d3.select(this.node).selectAll(".fighterBorder").attr('r', 5);
-                d3.select(this.node).selectAll(".fighter").attr('r', 2.5);
+                this.setState({zoomed: true});
+                this.zoom_handler();
             } else {
-                this.props.heatmapState.disableHeatmap();
-                d3.select(this.node).selectAll(".fighterBorder").attr('r', 10);
-                d3.select(this.node).selectAll(".fighter").attr('r', 5);
+                this.setState({zoomed: false});
+                this.zoom_handler();
             }
             d3.select(this.node).selectAll("path")
                 .classed("active", (d) => { return d === this.centered });
@@ -127,6 +128,23 @@ class Map extends React.Component<MapProps, MapState>{
         }
 
         return click;
+    }
+
+    zoom_handler(){
+        if(this.state.zoomed){
+            d3.selectAll('.boundary').classed('zoomed', true);
+            d3.selectAll(".fighterBorder").attr('r', 5);
+            d3.selectAll(".fighter").attr('r', 2.5);
+            this.props.fighterInfoState.showFighterInfo = false;
+            this.props.heatmapState.disabled = true;
+        }
+        else{
+            d3.selectAll('.boundary').classed('zoomed', false);
+            d3.selectAll(".fighterBorder").attr('r', 10);
+            d3.selectAll(".fighter").attr('r', 5);
+            this.props.fighterInfoState.showFighterInfo = false;
+            this.props.heatmapState.disabled = false;
+        }
     }
 }
 
