@@ -53,6 +53,7 @@
     background-image: url(boxing-glove.png);
     background-repeat: no-repeat;
     background-position: center;
+    z-index: 3;
   }
    
   #menu_button:hover {
