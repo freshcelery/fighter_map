@@ -1,7 +1,9 @@
-#flyoutMenu {
+@import 'global';
+
+#flyout-menu {
     width: 20vw;
     height: 100vh;
-    background-color: #EDF2F4;
+    background-color: $primary-white;
     position: fixed;
     top: 0;
     left: 0;
@@ -9,28 +11,29 @@
                 cubic-bezier(0, .52, 0, 1);
     overflow: hidden;
     z-index: 1000;
-  }
-   
-  #flyoutMenu.hide {
-    transform: translate3d(-20vw, 0, 0);
-  }
-   
-  #flyoutMenu.show {
-    transform: translate3d(0vw, 0, 0);
-    overflow: hidden;
-  }
-   
-  #flyoutMenu h2 a {
-    color: #333;
-    margin-left: 15px;
-    text-decoration: none;
-  }
-   
-  #flyoutMenu h2 a:hover {
-    text-decoration: underline;
-  }
 
-  .sidebar_menu {
+    &.hide {
+        transform: translate3d(-20vw, 0, 0);
+      }
+
+    &.show {
+        transform: translate3d(0vw, 0, 0);
+        overflow: hidden;
+      }
+
+    h2 a {
+        color: #333;
+        margin-left: 15px;
+        text-decoration: none;
+      }
+    
+      h2 a:hover {
+        text-decoration: underline;
+      }
+  }
+   
+
+  .sidebar-menu {
     position: fixed;
     left: 0;
     top: 0;
@@ -40,7 +43,7 @@
     height: 100vh;
   }
   
-  #menu_button {
+  #menu-button {
     background-color: #4F628E;
     top: 20px;
     left: 20px;
@@ -50,37 +53,36 @@
     border: 5px solid #2E4172;
     outline: none;
     transition: all .2s cubic-bezier(0, 1.26, .8, 1.28);
-    background-image: url(boxing-glove.png);
     background-repeat: no-repeat;
     background-position: center;
     z-index: 3;
-  }
-   
-  #menu_button:hover {
-    background-color: #4F628E;
-    cursor: pointer;
-    border-color: #2E4172;
-    transform: scale(1.2, 1.2);
-  }
-   
-  #menu_button:active {
-    border-color: rgb(58, 74, 114);
-    background-color: #FFF;
-  }
 
-  .menuContent{
+    &:hover {
+        background-color: #4F628E;
+        cursor: pointer;
+        border-color: #2E4172;
+        transform: scale(1.2, 1.2);
+      }
+
+    &:active {
+        border-color: rgb(58, 74, 114);
+        background-color: #FFF;
+      }
+  }
+   
+  .menu-content{
     height: 100%;
   }
 
-  .menuTab{
+  .menu-tab{
     min-width: 60px;
   }
 
-  .menuForm{
+  .menu-form{
     width: 100%;
 
   }
 
-  .menuExpansionPanel{
+  .menu-expansion-panel{
     background-color: #8D99AE;
   }

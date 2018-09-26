@@ -1,0 +1,17 @@
+$primary-black: #2B2D42;
+$secondary-black: #181719;
+$primary-grey: #8D99AE;
+$primary-white: #EDF2F4;
+$primary-red: #EF233C;
+$secondary-red: #D90429;
+$primary-dark-grey: #2f2f2f;
+$secondary-dark-grey: #464646;
+$tertiary-dark-grey: #333333;
+
+@font-face {
+    font-family: 'Lora';
+    font-style: normal;
+    font-weight: 400;
+    src: local('Open Sans'), local('OpenSans'),
+         url('./fonts/lora/Lora-Regular.ttf') format("truetype")
+  }

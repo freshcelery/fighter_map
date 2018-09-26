@@ -1,0 +1,104 @@
+@import 'global';
+
+.container{
+    position: relative;
+    height: 100vh;
+    width: 100vw;
+  }
+  
+  #tooltip {
+    position: absolute;
+    z-index: 2;
+    text-shadow: $primary-black 1px 1px 1px;
+    width: 130px;
+    height: 20px;
+    color: $primary-white;
+    font-size: 14px;
+    padding: 5px;
+    top: -150px;
+    left: -150px;
+    font-family: "HelveticaNeue-Light", "Helvetica Neue Light",
+    "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+    pointer-events: none;
+  }
+  
+  #tooltip svg {
+    border-top: 0;
+    margin-left: -5px;
+    margin-top: 7px;
+  }
+  
+  .country {
+    stroke: $primary-dark-grey;
+    fill: $secondary-dark-grey;
+  }
+  .country.active{
+    fill: $tertiary-dark-grey;
+  }
+  
+  body,
+  #map {
+    display: inline-block;
+    position: relative;
+    width: 100vw;
+    vertical-align: middle;
+    overflow: hidden;
+    background-color: $secondary-black;
+    margin: 0;
+  }
+  
+  .world_map {
+    display: inline-block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: $primary-black;
+  }
+  
+  
+  .overlay{
+    fill: none;
+    pointer-events: all;
+  }
+  
+  #heatmap{
+    pointer-events: none;
+    position: absolute;
+    top: 0;
+  }
+  
+  
+  #heatmap.visible{
+    visibility: visible;
+  }
+  
+  #heatmap.hidden{
+    visibility: hidden;
+  }
+  /* These need to be after visible/hidden */
+  #heatmap.disabled{
+    opacity:0;
+  }
+  
+  #heatmap.enabled{
+    opacity: 1;
+    transition: opacity 3s ease-in;
+  }
+  
+  #fighterData.visible{
+    visibility: visible;
+  
+  }
+  
+  #fighterData.hidden{
+    visibility: hidden;
+  }
+  
+  .fighter{
+    pointer-events: none;
+  }
+  
+  .fighterBorder{
+    opacity: 0;
+    cursor: pointer;
+  }

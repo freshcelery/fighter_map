@@ -1,3 +1,4 @@
+require('../../styles/menu.scss');
 import * as React from 'react';
 import MenuButton from './MenuButton';
 import FilterMenu from './FilterMenu';
@@ -73,7 +74,7 @@ class MenuContainer extends React.Component<MenuContainerProps, MenuContainerSta
             <MuiThemeProvider theme={theme}>
                 <div>
                     <MenuButton handleMouseDown={this.handleMenuButtonClick} />
-                    <div id="flyoutMenu" className={visibility}>
+                    <div id="flyout-menu" className={visibility}>
                         <AppBar position="static">
                             <Tabs value={this.state.menuState} onChange={this.handleViewChange}>
                             <Tab label="Filter" style={tabStyle} />

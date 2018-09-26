@@ -1,3 +1,5 @@
+@import 'global';
+
 .loadingOverlay {
     position: fixed;
     top: 0;
@@ -18,40 +20,32 @@
     animation-direction: alternate;
     animation-duration: 4s;
     vector-effect: non-scaling-stroke;
-    
+    width: 100%;
+    height: 20%;
   }
-  .slice{
-    width: 20%;
-    height: 100%;
-    overflow: hidden;
-    float: left;
-    animation-iteration-count: infinite;
-    animation-timing-function: ease-in;
-    animation-direction: alternate;
-    animation-duration: 4s;
-  }
+
   #sliceOne{
-    fill: #2B2D42;
+    fill: $primary-black;
     animation-name: fadeInFirstImage;
   }
 
   #sliceTwo{
-    fill: #8D99AE;
+    fill: $primary-grey;
     animation-name: fadeInSecondImage;
   }
 
   #sliceThree{
-    fill: #EDF2F4;
+    fill: $primary-white;
     animation-name: fadeInThirdImage;
   }
 
   #sliceFour{
-    fill: #EF233C;
+    fill: $primary-red;
     animation-name: fadeInFourthImage;
   }
 
   #sliceFive{
-    fill: #D90429;
+    fill: $secondary-red;
     animation-name: fadeInFifthImage;
   }
   

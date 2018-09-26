@@ -38,8 +38,8 @@ class HeatmapSettingsMenu extends React.Component<HeatMapSettingProps> {
         const { visible } = this.props.state;
         return (
             <MuiThemeProvider theme={theme}>
-                <div className="menuContent">
-                    <FormControl className="menuForm">
+                <div className="menu-content">
+                    <FormControl className="menu-form">
                         <FormGroup>
                             <FormControlLabel
                                 control={
@@ -48,7 +48,7 @@ class HeatmapSettingsMenu extends React.Component<HeatMapSettingProps> {
                                 label="Visible">
                             </FormControlLabel>
                         </FormGroup>
-                        <ExpansionPanel className="menuExpansionPanel">
+                        <ExpansionPanel className="menu-expansion-panel">
                             <ExpansionPanelSummary> Men's Divisions </ExpansionPanelSummary>
                             <ExpansionPanelDetails>
                                 <FormGroup>
