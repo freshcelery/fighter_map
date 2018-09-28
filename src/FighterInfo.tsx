@@ -10,7 +10,7 @@ interface FighterInfoProps {
     fighterInfoState: any;
 }
 
-interface FighterInfoState{
+interface FighterInfoState {
     flipped: boolean;
 }
 @observer
@@ -18,7 +18,7 @@ class FighterInfo extends React.Component<FighterInfoProps, FighterInfoState>{
 
     constructor(props) {
         super(props);
-        this.state = {flipped: false};
+        this.state = { flipped: false };
         this.handleCloseButton = this.handleCloseButton.bind(this);
         this.handleFlipCard = this.handleFlipCard.bind(this);
     }
@@ -27,9 +27,9 @@ class FighterInfo extends React.Component<FighterInfoProps, FighterInfoState>{
         this.props.fighterInfoState.toggleFighterInfo();
     }
 
-    handleFlipCard(){
+    handleFlipCard() {
         let currentState = this.state.flipped;
-        this.setState({flipped: !currentState});
+        this.setState({ flipped: !currentState });
     }
 
     render() {
@@ -40,17 +40,17 @@ class FighterInfo extends React.Component<FighterInfoProps, FighterInfoState>{
                 null
             )
         }
-        
+
         let style = {};
         let topValue = parseInt(this.props.fighterInfoState.fighterTop, 10);
-        if(topValue >= (window.innerHeight/2)){
-            style={
-                bottom: ((window.innerHeight - topValue) + 10) + 'px',
+        if (topValue >= (window.innerHeight / 2)) {
+            style = {
+                bottom: ((window.innerHeight - topValue) - 40) + 'px',
                 left: this.props.fighterInfoState.fighterLeft,
                 marginTop: 0,
                 padding: 0,
             }
-        }else{
+        } else {
             style = {
                 top: this.props.fighterInfoState.fighterTop,
                 left: this.props.fighterInfoState.fighterLeft,
@@ -62,41 +62,41 @@ class FighterInfo extends React.Component<FighterInfoProps, FighterInfoState>{
         return (
             <MuiThemeProvider theme={theme}>
                 <div className="flip-container" id={this.state.flipped ? 'flipped' : null} onClick={this.handleFlipCard} style={style}>
-	                <div className="flipper">
+                    <div className="flipper">
                         <div className="front">
                             <Button id="fighter-info-close-button" onClick={this.handleCloseButton}>
                             </Button>
                             <Paper className="fighter-info">
-                                    <div className="fighter-info-image-container">
-                                        <img  className="fighter-info-image" src={"../data/images/" + this.getImage()}/>
-                                    </div>
-                                    <div className="fighter-weightclass-container" id="side">
-                                        <Typography variant="headline" component="h3"align="center" id="fighter-info-weightclass">
-                                            {this.getWeightclassFormatted()}
-                                        </Typography>
-                                    </div>
-                                    <div className="fighter-weightclass-container" id="bottom"/>
-                                    <div className="fighter-lastname-container">
-                                            <Typography variant="headline" component="h3" align="center" id="fighter-info-name">
-                                             {this.getLastName()}
-                                            </Typography>
-                                    </div>
-                                    <div className="fighter-firstname-container">
-                                            <Typography variant="headline" component="h3" align="center" id="fighter-info-name">
-                                                {this.getFirstName()}
-                                            </Typography>
-                                    </div>
-                                    <div className="fighter-info-control-header">
-                                        <div className="fighter-info-pointer"></div>
-                                    </div>
+                                <div className="fighter-info-image-container">
+                                    <img className="fighter-info-image" src={"../data/images/" + this.getImage()} />
+                                </div>
+                                <div className="fighter-weightclass-container" id="side">
+                                    <Typography variant="headline" component="h3" align="center" id="fighter-info-weightclass">
+                                        {this.getWeightclassFormatted()}
+                                    </Typography>
+                                </div>
+                                <div className="fighter-weightclass-container" id="bottom" />
+                                <div className="fighter-lastname-container">
+                                    <Typography variant="headline" component="h3" align="center" id="fighter-info-name">
+                                        {this.getLastName()}
+                                    </Typography>
+                                </div>
+                                <div className="fighter-firstname-container">
+                                    <Typography variant="headline" component="h3" align="center" id="fighter-info-name">
+                                        {this.getFirstName()}
+                                    </Typography>
+                                </div>
+                                <div className="fighter-info-control-header">
+                                    <div className="fighter-info-pointer"></div>
+                                </div>
                             </Paper>
                         </div>
                         <div className="back">
-                        <Button id="fighter-info-close-button"  onClick={this.handleCloseButton}>
-                                        x
+                            <Button id="fighter-info-close-button" onClick={this.handleCloseButton}>
+                                x
                                     </Button>
                             <Paper className="fighter-info">
-                            <div className="fighter-info-control-header">
+                                <div className="fighter-info-control-header">
                                     <div className="fighter-info-pointer"></div>
                                 </div>
                                 <div className="fighter-name-container-back">
@@ -106,27 +106,90 @@ class FighterInfo extends React.Component<FighterInfoProps, FighterInfoState>{
                                 </div>
                                 <div className="fighter-info-stats">
                                     <div className="fighter-info-content-container">
-                                        <Typography component="p" id='fighter-info-content'>
-                                            Birthplace: {this.props.fighterInfoState.currentFighterData.birthplace}
-                                        </Typography>
-                                        <Typography component="p" id='fighter-info-content'>
-                                            Age: {this.props.fighterInfoState.currentFighterData.age}
-                                        </Typography>
-                                        <Typography component="p" id='fighter-info-content'>
-                                            Height: {this.formatHeight(this.props.fighterInfoState.currentFighterData.height)}
-                                        </Typography>
-                                        <Typography component="p" id='fighter-info-content'>
-                                            Weight: {this.props.fighterInfoState.currentFighterData.weight} lbs
-                                        </Typography>
-                                        <Typography component="p" id='fighter-info-content'>
-                                            Weightclass: {this.getWeightclassFormatted()}
-                                        </Typography>
-                                        <Typography component="p" id='fighter-info-content'>
-                                            Reach: {this.props.fighterInfoState.currentFighterData.reach}"
-                                        </Typography>
-                                        <Typography component="p" id='fighter-info-content'>
-                                            Record: {this.props.fighterInfoState.currentFighterData.wins}/{this.props.fighterInfoState.currentFighterData.losses}/{this.props.fighterInfoState.currentFighterData.draws}
-                                        </Typography>
+                                        <div className="content-container odd">
+                                            <div className="content-label">
+                                                <Typography component="p" id='fighter-info-content'>
+                                                    Birthplace
+                                            </Typography>
+                                            </div>
+                                            <div className="content-value">
+                                                <Typography component="p" id='fighter-info-content'>
+                                                    {this.props.fighterInfoState.currentFighterData.birthplace}
+                                                </Typography>
+                                            </div>
+                                        </div>
+                                        <div className="content-container even">
+                                            <div className="content-label">
+                                                <Typography component="p" id='fighter-info-content'>
+                                                    Age
+                                            </Typography>
+                                            </div>
+                                            <div className="content-value">
+                                                <Typography component="p" id='fighter-info-content'>
+                                                    {this.props.fighterInfoState.currentFighterData.age}
+                                                </Typography>
+                                            </div>
+                                        </div>
+                                        <div className="content-container odd">
+                                            <div className="content-label">
+                                                <Typography component="p" id='fighter-info-content'>
+                                                    Height
+                                            </Typography>
+                                            </div>
+                                            <div className="content-value">
+                                                <Typography component="p" id='fighter-info-content'>
+                                                    {this.formatHeight(this.props.fighterInfoState.currentFighterData.height)}
+                                                </Typography>
+                                            </div>
+                                        </div>
+                                        <div className="content-container even">
+                                            <div className="content-label">
+                                                <Typography component="p" id='fighter-info-content'>
+                                                    Weight
+                                            </Typography>
+                                            </div>
+                                            <div className="content-value">
+                                                <Typography component="p" id='fighter-info-content'>
+                                                    {this.props.fighterInfoState.currentFighterData.weight} lbs
+                                            </Typography>
+                                            </div>
+                                        </div>
+                                        <div className="content-container odd">
+                                            <div className="content-label">
+                                                <Typography component="p" id='fighter-info-content'>
+                                                    Reach
+                                            </Typography>
+                                            </div>
+                                            <div className="content-value">
+                                                <Typography component="p" id='fighter-info-content'>
+                                                    {this.props.fighterInfoState.currentFighterData.reach}"
+                                            </Typography>
+                                            </div>
+                                        </div>
+                                        <div className="content-container even">
+                                            <div className="content-label">
+                                                <Typography component="p" id='fighter-info-content'>
+                                                    Weightclass
+                                            </Typography>
+                                            </div>
+                                            <div className="content-value">
+                                                <Typography component="p" id='fighter-info-content'>
+                                                    {this.getWeightclassFormatted()}
+                                                </Typography>
+                                            </div>
+                                        </div>
+                                        <div className="content-container" id="record">
+                                            <div className="content-label" id="record-label">
+                                                <Typography component="p" id='fighter-info-content'>
+                                                    Record
+                                            </Typography>
+                                            </div>
+                                            <div className="content-value" id="record-value">
+                                                <Typography component="p" id='fighter-info-content'>
+                                                    {this.props.fighterInfoState.currentFighterData.wins}/{this.props.fighterInfoState.currentFighterData.losses}/{this.props.fighterInfoState.currentFighterData.draws}
+                                                </Typography>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                                 <div className="fighter-info-control-header">
@@ -147,25 +210,25 @@ class FighterInfo extends React.Component<FighterInfoProps, FighterInfoState>{
         return feet + "\' " + inches + "\"";
     }
 
-    getFirstName(){
-            return this.props.fighterInfoState.currentFighterData.name.split(' ')[0];
+    getFirstName() {
+        return this.props.fighterInfoState.currentFighterData.name.split(' ')[0];
     }
 
-    getLastName(){
+    getLastName() {
         let lastName = this.props.fighterInfoState.currentFighterData.name.split(' ');
         lastName.shift();
         return lastName.join(' ');
     }
 
-    getImage(){
+    getImage() {
         let name = this.props.fighterInfoState.currentFighterData.name.split(' ').join('_');
         let path = this.props.fighterInfoState.currentFighterData.weightclass + '/' + name + '.jpg';
         return path;
     }
 
-    getWeightclassFormatted(){
+    getWeightclassFormatted() {
         let weightclass = this.props.fighterInfoState.currentFighterData.weightclass.split('_');
-        return  weightclass.join("'s ");
+        return weightclass.join("'s ");
     }
 
 }

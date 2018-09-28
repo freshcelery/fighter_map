@@ -86,3 +86,14 @@
   .menu-expansion-panel{
     background-color: #8D99AE;
   }
+
+@media (min-width:320px){
+    #flyout-menu{
+      width: 50vw;
+
+      &.hide{
+        transform: translate3d(-50vw, 0, 0);
+      }
+    }
+
+}

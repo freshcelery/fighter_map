@@ -47,8 +47,8 @@
 }
 
 .fighter-info {
-    height: 500px;
-    width: 350px;
+    height: 450px;
+    width: 300px;
     z-index: 10;
     position: relative;
     overflow: hidden;
@@ -85,11 +85,55 @@
     margin: 2%;
 }
 
-#fighter-info-content{
-    font-size: 1em;
-    font-weight: bold;
-    line-height: 2em;
+.content-container{
+    width: 96%;
+    margin-left: 2%;
+    margin-right: 2%;
+    overflow: auto;
+    display: flex;
+    align-items: center;
+
+    &.odd{
+        background-color: $primary-grey;
+    }
+
+    &.even{
+        background-color: $primary-white;
+    }
+    
+    &#record{
+        display: block;
+    }
 }
+
+.content-label{
+    float: left;
+    text-align: center;
+    width: 50%;
+
+    &#record-label{
+        width: 100%;
+        background-color: $primary-grey;
+    }
+}
+
+.content-value{
+    float: right;
+    text-align: center;
+    width: 50%;
+
+    &#record-value{
+        width: 100%;
+        background-color: $primary-white;
+    }
+}
+
+#fighter-info-content{
+    font-size: 13px;
+    font-weight: bold;
+    margin-right: 2px;
+}
+
 
 .fighter-info-control-header {
     height: 1em;
@@ -107,7 +151,7 @@
 #fighter-info-close-button {
     position: absolute;
     top: -25px;
-    right: -25px;
+    right: 25px;
     z-index: 15;
     background-color: $primary-grey;
     padding: 0;
@@ -151,7 +195,7 @@
     text-align: center;
     writing-mode: tb-rl;
     transform: rotate(-180deg);
-    font-size: 2em;
+    font-size: 1.5em;
     line-height: 2.5em;
 }
 

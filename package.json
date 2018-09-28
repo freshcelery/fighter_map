@@ -35,6 +35,7 @@
     "promise": "^8.0.1",
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
+    "react-fittext": "^1.0.0",
     "react-onclickoutside": "^6.7.1",
     "react-responsive": "^5.0.0",
     "react-swipeable-views": "^0.12.16",
