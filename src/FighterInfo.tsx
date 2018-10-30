@@ -23,7 +23,9 @@ class FighterInfo extends React.Component<FighterInfoProps, FighterInfoState>{
         this.handleFlipCard = this.handleFlipCard.bind(this);
     }
 
-    handleCloseButton() {
+    handleCloseButton(e) {
+        // Stops click of close button triggering handleFlipCard!
+        e.stopPropagation();
         this.props.fighterInfoState.toggleFighterInfo();
     }
 
@@ -45,7 +47,7 @@ class FighterInfo extends React.Component<FighterInfoProps, FighterInfoState>{
         let topValue = parseInt(this.props.fighterInfoState.fighterTop, 10);
         if (topValue >= (window.innerHeight / 2)) {
             style = {
-                bottom: ((window.innerHeight - topValue) - 40) + 'px',
+                bottom: (window.innerHeight - topValue) + 'px',
                 left: this.props.fighterInfoState.fighterLeft,
                 marginTop: 0,
                 padding: 0,
@@ -222,7 +224,7 @@ class FighterInfo extends React.Component<FighterInfoProps, FighterInfoState>{
 
     getImage() {
         let name = this.props.fighterInfoState.currentFighterData.name.split(' ').join('_');
-        let path = this.props.fighterInfoState.currentFighterData.weightclass + '/' + name + '.jpg';
+        let path = this.props.fighterInfoState.currentFighterData.weightclass + '/' + name + '.png';
         return path;
     }
 

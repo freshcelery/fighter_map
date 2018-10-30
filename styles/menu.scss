@@ -12,8 +12,16 @@
     overflow: hidden;
     z-index: 1000;
 
+    @media screen and (max-width: 1000px){
+      width: 50vw;
+    }
+
     &.hide {
         transform: translate3d(-20vw, 0, 0);
+
+        @media screen and (max-width: 1000px){
+          transform: translate3d(-50vw, 0, 0);
+        }
       }
 
     &.show {
@@ -86,14 +94,3 @@
   .menu-expansion-panel{
     background-color: #8D99AE;
   }
-
-@media (min-width:320px){
-    #flyout-menu{
-      width: 50vw;
-
-      &.hide{
-        transform: translate3d(-50vw, 0, 0);
-      }
-    }
-
-}

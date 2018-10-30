@@ -77,8 +77,11 @@ class Fighters extends React.Component<FighterProps>{
     }
 
     plotFighterData() {
+        // Remove all existing nodes on update
+        d3.select(this.node).selectAll('g').remove();
+        
         let outerRadius = 10;
-        //check if map is zoomed in when redrawing data
+        // Check if map is zoomed in when redrawing data
         if(document.getElementsByClassName('zoomed').length > 0){
             outerRadius = 5;
         }
@@ -125,11 +128,13 @@ class Fighters extends React.Component<FighterProps>{
         let data = this.props.data;
         let filteredData = [];
         let weightclasses = this.getEnabledWeightclasses();
+        console.log(weightclasses);
         for (let fighter of data) {
             if (weightclasses.indexOf(fighter.weightclass) > -1) {
                 filteredData.push(fighter);
             }
         }
+        console.log(filteredData);
         return JSON.stringify(filteredData);
     }
 

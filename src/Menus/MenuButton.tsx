@@ -7,7 +7,9 @@ interface MenuButtonProps {
 class MenuButton extends React.Component<MenuButtonProps>{
     render(){
         return(
-            <button id="menu-button" onMouseDown={this.props.handleMouseDown}></button>
+            <button id="menu-button" onMouseDown={this.props.handleMouseDown}>
+                <i className="fas fa-bars"></i>
+            </button>
         )
     }
 }
